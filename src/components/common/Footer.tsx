@@ -1,25 +1,19 @@
 import "./Footer.css";
+import {
+    FaInstagram,
+    FaFacebookF,
+    FaLinkedinIn,
+    FaWhatsapp,
+} from "react-icons/fa";
 
 export default function Footer() {
     return (
         <footer className="footer">
             <div className="container footer-inner">
-                {/* <div className="footer-brand">
-                    <h2>Rajkot Airport x Mukesh Arts <span className="brand-mark">
-                        <AirportLogoMark />
-                    </span></h2>
-                    <p>
-                        Premium airport advertising media for brands looking to reach
-                        high-value travellers across Rajkot Airport.
-                    </p>
 
-                    <a href="#contact" className="footer-cta">
-                        Request Media Kit →
-                    </a>
-                </div> */}
                 <div className="footer-brand">
                     <div className="footer-brand-row">
-                        <h2>Rajkot Airport x Mukesh Arts</h2>
+                        <h2>Rajkot Airport   <br /> <em>x</em> Mukesh Arts</h2>
 
                         <span className="footer-logo">
                             <AirportLogoMark />
@@ -31,18 +25,36 @@ export default function Footer() {
                         high-value travellers across Rajkot Airport.
                     </p>
 
-                    <a href="#contact" className="footer-cta">
-                        Request Media Kit →
-                    </a>
+
+                    <div className="footer-actions">
+                        <div className="footer-socials">
+                            <a href="#" aria-label="Instagram">
+                                <FaInstagram />
+                            </a>
+
+                            <a href="#" aria-label="Facebook">
+                                <FaFacebookF />
+                            </a>
+
+                            <a href="#" aria-label="LinkedIn">
+                                <FaLinkedinIn />
+                            </a>
+
+                            <a href="#" aria-label="WhatsApp">
+                                <FaWhatsapp />
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="footer-links">
                     <div>
                         <h4>Explore</h4>
                         <a href="#about">About Us</a>
-                        <a href="#inventory">Inventory</a>
-                        <a href="#packages">Packages</a>
+                        <a href="#inventory">Inventory & Packages</a>
+                        <a href="#packages">Why Airport Media</a>
                         <a href="#gallery">Gallery</a>
+                        <a href="#gallery">Contact Us</a>
                     </div>
 
                     <div>
@@ -54,9 +66,9 @@ export default function Footer() {
                     </div>
 
                     <div>
-                        <h4>Contact</h4>
+                        <h4>Reach</h4>
                         <p>Rajkot International Airport</p>
-                        <p>Saurashtra, Gujarat</p>
+                        <p>Mukesh Art Main Office, PLOT NO. 71, SURVEY NO. 145, JAMBUDIYA, Morbi, Gujarat - 363642</p>
                         <a href="mailto:info@example.com">info@example.com</a>
                     </div>
                 </div>
