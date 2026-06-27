@@ -188,13 +188,35 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
+// import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { HiBars3BottomRight, HiXMark } from "react-icons/hi2";
 import "./Header.css";
 
+// import logo from "@/public/images/home/logo.png";
+import logo from "@/public/images/home/mukesh airport media-Photoroom.png";
+
+
 type ThemeId = "day" | "night";
+
+type ViewTransitionDocument = Document & {
+    startViewTransition?: (callback: () => void) => {
+        finished: Promise<void>;
+    };
+};
 
 export default function Header() {
     const [themeId, setThemeId] = useState<ThemeId>("day");
@@ -249,6 +271,43 @@ export default function Header() {
 
     const isNight = themeId === "night";
 
+
+    function handleThemeToggle(event: MouseEvent<HTMLButtonElement>) {
+        const nextTheme: ThemeId = isNight ? "day" : "night";
+        const root = document.documentElement;
+        const transitionDocument = document as ViewTransitionDocument;
+
+        const buttonRect = event.currentTarget.getBoundingClientRect();
+        const x = buttonRect.left + buttonRect.width / 2;
+        const y = buttonRect.top + buttonRect.height / 2;
+
+        root.style.setProperty("--theme-x", `${x}px`);
+        root.style.setProperty("--theme-y", `${y}px`);
+
+        root.classList.remove("theme-to-day", "theme-to-night");
+        root.classList.add(`theme-to-${nextTheme}`);
+
+        const updateTheme = () => {
+            setThemeId(nextTheme);
+            root.dataset.theme = nextTheme;
+            localStorage.setItem("ram-theme", nextTheme);
+        };
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (!transitionDocument.startViewTransition || reduceMotion) {
+            updateTheme();
+            root.classList.remove("theme-to-day", "theme-to-night");
+            return;
+        }
+
+        const transition = transitionDocument.startViewTransition(updateTheme);
+
+        transition.finished.finally(() => {
+            root.classList.remove("theme-to-day", "theme-to-night");
+        });
+    }
+
     return (
         // <header className={`nav ${isMenuOpen ? "mobile-open" : ""}`}>
         // <header
@@ -266,8 +325,9 @@ export default function Header() {
                     </span>
 
                     <span className="brand-text">
-                        <b>Rajkot Airport x Mukesh Arts</b>
-                        <small>Airport Advertising Media</small>
+                        {/* <b>Rajkot Airport x Mukesh Arts</b> */}
+                        <b>Mukesh Airport Media</b>
+                        <small>Rajkot Airport Advertising </small>
                     </span>
                 </a>
 
@@ -292,9 +352,13 @@ export default function Header() {
                 </nav>
 
                 <div className="nav-end">
-                    <ThemeToggle
+                    {/* <ThemeToggle
                         isNight={isNight}
                         onToggle={() => setThemeId(isNight ? "day" : "night")}
+                    /> */}
+                    <ThemeToggle
+                        isNight={isNight}
+                        onToggle={handleThemeToggle}
                     />
 
                     <a href="#inventory" className="btn-primary">
@@ -324,12 +388,263 @@ export default function Header() {
 }
 
 
+// function ThemeToggle({
+//     isNight,
+//     onToggle,
+// }: {
+//     isNight: boolean;
+//     onToggle: () => void;
+// }) {
+//     return (
+//         <button
+//             className="theme-toggle"
+//             type="button"
+//             onClick={onToggle}
+//             aria-label={isNight ? "Switch to sun day theme" : "Switch to full moon night theme"}
+//             aria-pressed={isNight}
+//         >
+//             <span className="theme-scene" aria-hidden="true">
+//                 <span className="sun-core" />
+//                 <span className="cloud cloud-a" />
+//                 <span className="cloud cloud-b" />
+//                 <span className="moon-core" />
+//                 <span className="star star-a" />
+//                 <span className="star star-b" />
+//                 <span className="star star-c" />
+//             </span>
+//         </button>
+//     );
+// }
+
+// function AirportLogoMark() {
+//     return (
+//         // <svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+//         //     <path d="M18 38 L45 5 L70 38 C54 31 34 31 18 38 Z" fill="#E21D2D" />
+//         //     <path d="M70 38 L96 5 L122 38 C105 31 86 31 70 38 Z" fill="#1E2A78" />
+//         //     <text
+//         //         x="70"
+//         //         y="63"
+//         //         textAnchor="middle"
+//         //         fontFamily="Arial, Helvetica, sans-serif"
+//         //         fontSize="24"
+//         //         fontWeight="800"
+//         //         letterSpacing="2.5"
+//         //         // fill="#111111"
+//         //         fill="var(--ink)"
+//         //     >
+//         //         MUKESH
+//         //     </text>
+//         //     <rect x="79" y="70" width="43" height="9" rx="1.5" fill="#E21D2D" />
+//         //     <text
+//         //         x="101"
+//         //         y="78"
+//         //         textAnchor="middle"
+//         //         fontFamily="Arial, Helvetica, sans-serif"
+//         //         fontSize="10"
+//         //         fontWeight="800"
+//         //         letterSpacing="3"
+//         //         fill="#FFFFFF"
+//         //     >
+//         //         ART
+//         //     </text>
+//         // </svg>
+//         // <svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+//         //     <path d="M18 38 L45 5 L70 38 C54 31 34 31 18 38 Z" fill="#E21D2D" />
+//         //     <path d="M70 38 L96 5 L122 38 C105 31 86 31 70 38 Z" fill="#1E2A78" />
+//         //     <text
+//         //         x="70"
+//         //         y="63"
+//         //         textAnchor="middle"
+//         //         fontFamily="Arial, Helvetica, sans-serif"
+//         //         fontSize="24"
+//         //         fontWeight="800"
+//         //         letterSpacing="2.5"
+//         //         // fill="#111111"
+//         //         fill="var(--ink)"
+//         //     >
+//         //         MUKESH
+//         //     </text>
+//         //     <rect x="79" y="70" width="43" height="9" rx="1.5" fill="#E21D2D" />
+//         //     <text
+//         //         x="101"
+//         //         y="78"
+//         //         textAnchor="middle"
+//         //         fontFamily="Arial, Helvetica, sans-serif"
+//         //         fontSize="10"
+//         //         fontWeight="800"
+//         //         letterSpacing="3"
+//         //         fill="#FFFFFF"
+//         //     >
+//         //         Airport Media
+//         //     </text>
+//         // </svg>
+//         <svg
+//             viewBox="0 0 140 90"
+//             xmlns="http://www.w3.org/2000/svg"
+//             aria-hidden="true"
+//         >
+
+//             <rect
+//                 x="2"
+//                 y="2"
+//                 width="136"
+//                 height="105"
+//                 rx="9"
+//                 ry="9"
+//                 fill="none"
+//                 stroke="#111111"
+//                 strokeWidth="1.5"
+//             />
+
+//             <path
+//                 d="M18 38 L45 5 L70 38 C54 31 34 31 18 38 Z"
+//                 fill="#E21D2D"
+//             />
+//             <path
+//                 d="M70 38 L96 5 L122 38 C105 31 86 31 70 38 Z"
+//                 fill="#1E2A78"
+//             />
+
+//             <text
+//                 x="70"
+//                 y="63"
+//                 textAnchor="middle"
+//                 fontFamily="Arial, Helvetica, sans-serif"
+//                 fontSize="22"
+//                 fontWeight="800"
+//                 letterSpacing="2"
+//                 fill="var(--ink, #111111)"
+//             >
+//                 MUKESH
+//             </text>
+
+//             <line
+//                 x1="6"
+//                 y1="72"
+//                 x2="132"
+//                 y2="72"
+//                 stroke="#1E2A78"
+//                 strokeWidth="2"
+//                 strokeLinecap="square"
+//             />
+
+//             <text
+//                 x="70"
+//                 y="90"
+//                 textAnchor="middle"
+//                 // fontFamily="Georgia, 'Times New Roman', serif"
+//                 fontFamily="Arial, Helvetica, sans-serif"
+//                 fontSize="15"
+//                 fontWeight="600"
+//                 letterSpacing="1"
+//                 fill="#1E2A78"
+//             >
+//                 AIRPORT MEDIA
+//             </text>
+//         </svg>
+//     );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function AirportLogoMark() {
+//     return (
+//         <svg
+//             className="airport-logo-svg"
+//             viewBox="0 0 140 110"
+//             xmlns="http://www.w3.org/2000/svg"
+//             aria-hidden="true"
+//         >
+//             <rect
+//                 x="3"
+//                 y="3"
+//                 width="135"
+//                 height="104"
+//                 rx="10"
+//                 ry="10"
+//                 fill="#ffffff"
+//                 stroke="#111111"
+//                 strokeWidth="1.8"
+//             />
+
+//             <path
+//                 d="M18 40 L45 8 L70 40 C54 33 34 33 18 40 Z"
+//                 fill="#E21D2D"
+//             />
+
+//             <path
+//                 d="M70 40 L96 8 L122 40 C105 33 86 33 70 40 Z"
+//                 fill="#1E2A78"
+//             />
+
+//             <text
+//                 x="70"
+//                 y="66"
+//                 textAnchor="middle"
+//                 fontFamily="Arial, Helvetica, sans-serif"
+//                 fontSize="22"
+//                 fontWeight="800"
+//                 letterSpacing="2"
+//                 // fill="var(--ink, #111111)"
+//                 fill="#111111"
+//             >
+//                 MUKESH
+//             </text>
+
+//             {/* <line
+//                 x1="20"
+//                 y1="76"
+//                 x2="120"
+//                 y2="76"
+//                 stroke="#111111"
+//                 strokeWidth="2"
+//                 strokeLinecap="square"
+//             /> */}
+//             <line
+//                 x1="12"
+//                 y1="72"
+//                 x2="124"
+//                 y2="72"
+//                 stroke="#1E2A78"
+//                 strokeWidth="2"
+//                 strokeLinecap="square"
+//             />
+
+//             <text
+//                 x="70"
+//                 y="93"
+//                 textAnchor="middle"
+//                 fontFamily="Arial, Helvetica, sans-serif"
+//                 fontSize="13"
+//                 fontWeight="600"
+//                 letterSpacing="1"
+//                 fill="#1E2A78"
+//             >
+//                 AIRPORT MEDIA
+//             </text>
+//         </svg>
+//     );
+// }
+
 function ThemeToggle({
     isNight,
     onToggle,
 }: {
     isNight: boolean;
-    onToggle: () => void;
+    onToggle: (event: MouseEvent<HTMLButtonElement>) => void;
 }) {
     return (
         <button
@@ -352,37 +667,105 @@ function ThemeToggle({
     );
 }
 
+
 function AirportLogoMark() {
     return (
-        <svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M18 38 L45 5 L70 38 C54 31 34 31 18 38 Z" fill="#E21D2D" />
-            <path d="M70 38 L96 5 L122 38 C105 31 86 31 70 38 Z" fill="#1E2A78" />
-            <text
-                x="70"
-                y="63"
-                textAnchor="middle"
-                fontFamily="Arial, Helvetica, sans-serif"
-                fontSize="24"
-                fontWeight="800"
-                letterSpacing="2.5"
-                // fill="#111111"
-                fill="var(--ink)"
-            >
-                MUKESH
-            </text>
-            <rect x="79" y="70" width="43" height="9" rx="1.5" fill="#E21D2D" />
-            <text
-                x="101"
-                y="78"
-                textAnchor="middle"
-                fontFamily="Arial, Helvetica, sans-serif"
-                fontSize="10"
-                fontWeight="800"
-                letterSpacing="3"
-                fill="#FFFFFF"
-            >
-                ART
-            </text>
-        </svg>
+        // <Image
+        //     src={logo}
+        //     alt="Mukesh Airport Media Logo"
+        //     priority
+        //     className="airport-logo-img"
+        //     sizes="(max-width: 768px) 54px, 70px"
+        // />
+        <Image
+    src={logo}
+    alt="Mukesh Airport Media Logo"
+    width={300}
+    height={300}
+    quality={100}
+    priority
+    className="airport-logo-img"
+/>
     );
 }
+
+
+
+
+
+
+
+
+
+
+// function AirportLogoMark() {
+//     return (
+//         <svg
+//             className="airport-logo-svg"
+//             viewBox="0 0 336 336"
+//             xmlns="http://www.w3.org/2000/svg"
+//             role="img"
+//             aria-label="Mukesh Airport Media Logo"
+//         >
+//             <rect
+//                 x="15"
+//                 y="15"
+//                 width="306"
+//                 height="306"
+//                 rx="34"
+//                 ry="34"
+//                 fill="#ffffff"
+//                 stroke="#272323"
+//                 strokeWidth="4"
+//             />
+
+//             <path
+//                 d="M48 166 L108 73 L168 166 C133 140 83 140 48 166 Z"
+//                 fill="#ED1C24"
+//             />
+
+//             <path
+//                 d="M168 166 L228 73 L288 166 C253 140 203 140 168 166 Z"
+//                 fill="#2E3192"
+//             />
+
+            
+//             <text
+//                 x="168"
+//                 y="221"
+//                 textAnchor="middle"
+//                 fontFamily="'Albertus', 'Albertus MT', 'Albertus Nova', 'Flareserif 821', serif"
+//                 fontSize="67"
+//                 fontWeight="normal"
+//                 fill="#000000"
+//             >
+//                 MuKesH
+//             </text>
+
+//             <line
+//                 x1="54"
+//                 y1="236"
+//                 x2="282"
+//                 y2="236"
+//                 stroke="#222222"
+//                 strokeWidth="5"
+//                 strokeLinecap="butt"
+//             />
+
+//             <text
+//                 x="168"
+//                 y="269"
+//                 textAnchor="middle"
+//                 fontFamily="'Times New Roman', Georgia, serif"
+//                 fontSize="26"
+//                 fontWeight="500"
+//                 letterSpacing="5"
+//                 fill="#0071BC"
+//                 textLength="233"
+//                 lengthAdjust="spacing"
+//             >
+//                 AIRPORT MEDIA
+//             </text>
+//         </svg>
+//     );
+// }
