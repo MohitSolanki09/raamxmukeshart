@@ -222,7 +222,8 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import mukeshLogo from "@/public/images/home/mukesh airport media-Photoroom.png";
+// import mukeshLogo from "@/public/images/home/mukesh airport media-Photoroom.png";
+import mukeshLogo from "@/public/images/home/cover_logo.png";
 
 import "./PageLoader.css";
 

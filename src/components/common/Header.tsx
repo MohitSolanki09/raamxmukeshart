@@ -207,8 +207,8 @@ import { HiBars3BottomRight, HiXMark } from "react-icons/hi2";
 import "./Header.css";
 
 // import logo from "@/public/images/home/logo.png";
-import logo from "@/public/images/home/mukesh airport media-Photoroom.png";
-
+// import logo from "@/public/images/home/mukesh airport media-Photoroom.png";
+import logo from "@/public/images/home/cover_logo.png";
 
 type ThemeId = "day" | "night";
 

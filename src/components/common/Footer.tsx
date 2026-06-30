@@ -128,7 +128,8 @@
 
 
 import Image from "next/image";
-import airportLogo from "@/public/images/home/mukesh airport media-Photoroom.png"
+// import airportLogo from "@/public/images/home/mukesh airport media-Photoroom.png"
+import airportLogo from "@/public/images/home/cover_logo.png"
 import "./Footer.css";
 import {
     FaInstagram,

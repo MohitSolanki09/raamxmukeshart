@@ -60,10 +60,13 @@ html[data-theme="night"] .nav {
 }
 
 .airport-logo-img {
-    width: 120px;
+    /* width: 120px;
     height: 108px;
     object-fit: cover;
-    display: block;
+    display: block; */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 /* Laptop / small desktop */
